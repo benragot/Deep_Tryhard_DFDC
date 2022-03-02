@@ -43,3 +43,25 @@ MODEL_VERSION = 'v2'
 # not required here
 
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+### FACE DETECTION PARAMS (TO UPDATE)
+
+VIDEO_PATH = BUCKET
+
+PATH = BUCKET
+
+MODEL_MOBILENETV2 = BUCKET
+
+DATA_FOLDER = '/mnt/d/deepfake-detection-challenge'
+
+TRAIN_SAMPLE_FOLDER = 'train_sample_videos'
+
+TEST_FOLDER = 'test_videos'
+
+VIDEOS_DIR = '/mnt/d/deepfake-detection-challenge/train_sample_videos/'
+
+SAMPLE_REAL = f'{VIDEOS_DIR}/abarnvbtwb.mp4'
+
+SAMPLE_FAKE = f'{VIDEOS_DIR}/eepezmygaq.mp4'
+
+path='/mnt/d/deepfake-detection-challenge/test_videos/test/'
