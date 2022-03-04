@@ -116,6 +116,7 @@ class TurboModel():
         The path to the dataset used is the one specified in the __init__.
         You can specify a batch_size and a validation split.
         '''
+        print('gwen')
         self.test_ds = image_dataset_from_directory(
                                 self.path_to_test_set,
                                 validation_split=validation_split,
@@ -145,51 +146,29 @@ class TurboModel():
         Saves results (curves + model.evaluate in the folder specified in the init.)
         '''
         #special treatment for the history dict because the keys can vary.
-
         for key, value in self.history.history.items():
-            if 'val_loss' in key:
-                val_loss = value
-            if 'val_accuracy' in key:
-                val_accuracy = value
-            if 'val_recall' in key:
-                val_recall = value
-            if 'val_precision' in key:
-                val_precision = value
-            if 'val_auc' in key:
-                val_auc = value
-
-        plt.plot(val_loss)
-        plt.title(f'Validation set : Loss')
-        plt.ylabel('Loss')
-        plt.xlabel('Epoch')
-        plt.savefig(self.folder_to_store_results + 'val_set_train_loss.pdf')
-        plt.plot(val_accuracy)
-        plt.title(f'Validation set : Accuracy')
-        plt.ylabel('Accuracy')
-        plt.xlabel('Epoch')
-        plt.savefig(self.folder_to_store_results + 'val_set_train_accuracy.pdf')
-        plt.plot(val_recall)
-        plt.title(f'Validation set : recall')
-        plt.ylabel('recall')
-        plt.xlabel('Epoch')
-        plt.savefig(self.folder_to_store_results + 'val_set_train_recall.pdf')
-        plt.plot(val_precision)
-        plt.title(f'Validation set : precision')
-        plt.ylabel('precision')
-        plt.xlabel('Epoch')
-        plt.savefig(self.folder_to_store_results + 'val_set_train_precision.pdf')
-        plt.plot(val_auc)
-        plt.title(f'Validation set : auc')
-        plt.ylabel('auc')
-        plt.xlabel('Epoch');
-        plt.savefig(self.folder_to_store_results + 'val_set_train_auc.pdf');
+            if 'val' in key:
+                #it's validation set value.
+                plt.close()
+                plt.plot(value)
+                plt.title(f'Validation set : {key}')
+                plt.ylabel(key)
+                plt.xlabel('Epoch')
+                plt.savefig(self.folder_to_store_results + f'val_set_{key}.pdf')
+            else:
+                #it's train set value.
+                plt.close()
+                plt.plot(value)
+                plt.title(f'Train set : {key}')
+                plt.ylabel(key)
+                plt.xlabel('Epoch')
+                plt.savefig(self.folder_to_store_results + f'train_set_{key}.pdf')
 
     def save_evaluate(self):
         '''
         Saves results (curves + model.evaluate in the folder specified in the init.)
         '''
-        #scores = self.model.evaluate()
-        scores = ['tra','la','la','la','la']
+        scores = self.model.evaluate(self.test_ds)
         text_file = open(self.folder_to_store_results + "model_evaluate.txt", "w")
         n = text_file.write(f'''Test loss : {scores[0]}\
                             \nTest accuracy : {scores[1]}\
