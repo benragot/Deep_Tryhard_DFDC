@@ -56,3 +56,6 @@ pypi:
 
 test_GCP_management:
 	python -m Deep_Tryhard_DFDC.GCP_management
+
+run_streamlit:
+	@streamlit run Streamlit/app_main.py

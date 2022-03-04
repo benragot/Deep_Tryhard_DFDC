@@ -47,7 +47,7 @@ MODEL_VERSION = 'v2'
 
 ### FACE DETECTION PARAMS (TO UPDATE)
 
-MODEL_MOBILENETV2 = 'yolo_model/facedetection-mobilenetv2-size224-alpha0.75.h5'
+MODEL_MOBILENETV2 = 'model_Yolov2/facedetection-mobilenetv2-size224-alpha0.75.h5'
 
 TRAIN_FOLDER_FAKE = 'Data/fake'
 
