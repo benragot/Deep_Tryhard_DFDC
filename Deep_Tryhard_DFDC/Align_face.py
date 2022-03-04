@@ -49,8 +49,8 @@ def align_one_face(img_path:str, folder_to_save:str):
     img = cv2.imread(img_path)
 
     # Creating face_cascade and eye_cascade objects
-    face_cascade=cv2.CascadeClassifier("Align_face_xml/haarcascade_frontalface_default.xml")
-    eye_cascade=cv2.CascadeClassifier("Align_face_xml/haarcascade_eye.xml")
+    face_cascade=cv2.CascadeClassifier("../Align_face_xml/haarcascade_frontalface_default.xml")
+    eye_cascade=cv2.CascadeClassifier("../Align_face_xml/haarcascade_eye.xml")
 
     # Converting the image into grayscale
     gray=cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
