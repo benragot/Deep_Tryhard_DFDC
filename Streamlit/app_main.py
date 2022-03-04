@@ -14,7 +14,6 @@ st.title("Deepfake detection")
 
 uploaded_file = st.file_uploader("Gimme some video",type=["mp4","mov","mkv","wmv"])
 tfile = tempfile.NamedTemporaryFile(delete=False)
-
 tfile.write(uploaded_file.read())
 capture_image = cv2.VideoCapture(tfile.name)
 
@@ -53,12 +52,15 @@ cv2.destroyAllWindows()
 
 st.title('Selecting 10 frames from the video and identifying faces')
 
-fig, ax = plt.subplots(1, 1, figsize=(3,3))
+fig, ax = plt.subplots(2, 5, figsize=(12,4))
 plt.axis('off')
-ax.imshow(face_list[0])
+for i in range(2):
+    for j in range(5):
+        ax[i,j].imshow(face_list[i*5+j])
+        ax[i,j].axis('off')
 st.pyplot(fig)
 
-deepfake_detection_model = get_model('model_simple_32_neurons_dense.joblib')
-face_for_pred = np.expand_dims(face_list[0], axis = 0)
+# deepfake_detection_model = get_model('model_simple_32_neurons_dense.joblib')
+# face_for_pred = np.expand_dims(face_list[0], axis = 0)
 
-st.write(deepfake_detection_model.predict(face_list[0]))
+# st.write(deepfake_detection_model.predict(face_list[0]))
