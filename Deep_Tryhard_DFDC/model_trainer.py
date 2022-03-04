@@ -16,7 +16,8 @@ import os
 
 class TurboModel():
     def __init__(self,
-                 path_to_train_val_dataset,
+                 path_to_train_dataset,
+                 path_to_val_dataset,
                  path_to_test_set,
                  folder_to_store_results,
                  model_name = 'Simple_Model_CNN_16_32_64'):
@@ -32,7 +33,8 @@ class TurboModel():
             used to name the saved model.
         """
         self.model_name = model_name
-        self.path_to_train_val_dataset = path_to_train_val_dataset
+        self.path_to_train_dataset = path_to_train_dataset
+        self.path_to_val_dataset = path_to_val_datase
         self.path_to_test_set = path_to_test_set
         self.folder_to_store_results = folder_to_store_results
         self.model_hyperparams = {}
@@ -84,10 +86,10 @@ class TurboModel():
                     optimizer='adam',
                     metrics=['accuracy',Recall(),Precision(),AUC()])
         return self
-    def create_train_val_sets(self, batch_size = 16,
+    def create_train_set(self, batch_size = 16,
                               validation_split=0.2):
         '''
-        Creates a train set and a val set to do batch per batch trainings.
+        Creates a train set to do batch per batch trainings.
         The path to the dataset used is the one specified in the __init__.
         You can specify a batch_size and a validation split.
         '''
@@ -100,14 +102,23 @@ class TurboModel():
                                 seed=123,
                                 image_size=(224, 224),
                                 batch_size=batch_size)
-
+        self.train_ds = self.train_ds.prefetch(buffer_size=AUTOTUNE)
+        return self
+    def create_val_set(self, batch_size = 8,
+                              validation_split=0.05):
+        '''
+        Creates a tensorflow batch per batch val set.
+        The path to the dataset used is the one specified in the __init__.
+        You can specify a batch_size and a validation split.
+        '''
         self.val_ds = image_dataset_from_directory(
-                                self.path_to_train_val_dataset,
+                                self.path_to_val_dataset,
                                 validation_split=validation_split,
-                                subset="validation",
+                                subset="training",
                                 seed=123,
                                 image_size=(224, 224),
                                 batch_size=batch_size)
+        self.val_ds = self.val_ds.prefetch(buffer_size=AUTOTUNE)
         return self
     def create_test_set(self, batch_size = 8,
                               validation_split=0.1):
@@ -116,7 +127,6 @@ class TurboModel():
         The path to the dataset used is the one specified in the __init__.
         You can specify a batch_size and a validation split.
         '''
-        print('gwen')
         self.test_ds = image_dataset_from_directory(
                                 self.path_to_test_set,
                                 validation_split=validation_split,
@@ -124,6 +134,7 @@ class TurboModel():
                                 seed=123,
                                 image_size=(224, 224),
                                 batch_size=batch_size)
+        self.test_ds = self.test_ds.prefetch(buffer_size=AUTOTUNE)
         return self
     def train_model(self, epochs = 20,
                     patience = 5,
@@ -189,6 +200,14 @@ class TurboModel():
         Saves the model in the folder specified in the init.
         '''
         joblib.dump(self.model, self.folder_to_store_results + self.model_name + '.joblib')
+    def save_summary(self):
+        '''
+        Saves the model in the folder specified in the init.
+        '''
+        def myprint(s):
+            with open(self.folder_to_store_results + 'model_summary.txt','w+') as f:
+                print(s, file=f)
+        self.model.summary(print_fn=myprint)
     def save_results(self):
         '''
         Creates the folder specified in the init.
@@ -200,3 +219,4 @@ class TurboModel():
         self.save_evaluate()
         self.save_curves()
         self.save_hyperparams()
+        self.save_summary()
