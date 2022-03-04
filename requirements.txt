@@ -29,5 +29,4 @@ joblib
 memoized-property
 termcolor
 tqdm
-PIL
 cv2
