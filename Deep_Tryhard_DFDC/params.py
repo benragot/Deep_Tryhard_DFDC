@@ -44,3 +44,22 @@ MODEL_VERSION = 'v2'
 # not required here
 
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+### FACE DETECTION PARAMS (TO UPDATE)
+
+MODEL_MOBILENETV2 = 'yolo_model/facedetection-mobilenetv2-size224-alpha0.75.h5'
+
+TRAIN_FOLDER_FAKE = 'Data/fake'
+
+TRAIN_FOLDER_REAL = 'Data/real'
+
+TEST_FOLDER = 'test_videos'
+
+SAMPLE_REAL = f'{TRAIN_FOLDER_FAKE}/abarnvbtwb.mp4'
+
+SAMPLE_FAKE = f'{TRAIN_FOLDER_FAKE}/eepezmygaq.mp4'
+
+# title of folder as follow : images_{number of videos}vid_{number of theorical frames}tf /fake or real
+PATH_WRITE_FAKE ='Data/images_50vid_100tf/fake'
+
+PATH_WRITE_REAL = 'Data/images_50vid_100tf/real'
