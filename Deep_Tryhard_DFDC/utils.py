@@ -33,7 +33,7 @@ def move_test_files(data_file,path = None, fake = 'fake',real = 'real', x_fakes 
 
         rfile = real_list.pop(random.randint(0,len(real_list)-i))
         os.replace(os.path.join(reals_path,rfile),os.path.join(reals_test_path,rfile))
-=======
+
 # Packages
 import os
 import math
