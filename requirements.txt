@@ -1,29 +1,10 @@
-# packaging
-pip>=9
-setuptools>=26
-twine
-wheel>=0.29
-
-# data science
-numpy
-pandas
-scikit-learn
-
-# tests/linter
-black
-coverage
-flake8
-pytest
-yapf
-
-# API
-gcsfs
-google-cloud-storage
-mlflow
-s3fs
-
-# utilities
-six>=1.14
-joblib
-memoized-property
-termcolor
+matplotlib==3.5.1
+numpy==1.18.5
+opencv_python_headless==4.5.5.62
+pandas==1.4.0
+protobuf==3.19.4
+seaborn==0.11.2
+setuptools==56.0.0
+tensorflow==2.7.0
+termcolor==1.1.0
+tqdm==4.62.3
