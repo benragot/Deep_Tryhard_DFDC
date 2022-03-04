@@ -16,6 +16,7 @@ def move_test_files(data_file,path = '', fake = 'fake',real = 'real', x_fakes = 
     '''
     fullpath = os.path.join(path,data_file)
 
+
     # assert(data_file in os.listdir(path))
     isExist = os.path.exists(fullpath + '_test')
     if not isExist:
