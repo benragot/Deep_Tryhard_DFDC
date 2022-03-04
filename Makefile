@@ -53,3 +53,6 @@ pypi_test:
 
 pypi:
 	@twine upload dist/* -u $(PYPI_USERNAME)
+
+test_GCP_management:
+	python -m Deep_Tryhard_DFDC.GCP_management

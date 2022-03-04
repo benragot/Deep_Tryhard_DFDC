@@ -8,7 +8,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-def align_faces_in_folder(folder_input:str,  folder_output:str, pic_extension = '.jpg'):
+def align_faces_in_folder(folder_input:str,
+                          folder_output:str,
+                          pic_extension = '.jpg',
+                          xml_path='Align_face_xml/'):
     '''Takes a folder containing pictures of faces and aligns all the faces, creating new pictures, in the folder_output'''
 
     #checking that the folder to save ends with /
@@ -25,10 +28,12 @@ def align_faces_in_folder(folder_input:str,  folder_output:str, pic_extension = 
         raise Exception('No picture found in input folder')
 
     for pic in pic_list:
-        align_one_face(img_path=folder_input+pic, folder_to_save=folder_output)
+        align_one_face(img_path=folder_input+pic,
+                       folder_to_save=folder_output,
+                       xml_path= xml_path)
 
 
-def align_one_face(img_path:str, folder_to_save:str):
+def align_one_face(img_path:str, folder_to_save:str, xml_path='Align_face_xml/'):
     '''
     This function takes an image with a face in input, in the form of the path: folder/subfolder/picture.jpg
     it returns a face in output, aligned vertically and saves it in a folder_to_save in the form : folder_to_save/subfolder_to_save/ '''
@@ -49,8 +54,8 @@ def align_one_face(img_path:str, folder_to_save:str):
     img = cv2.imread(img_path)
 
     # Creating face_cascade and eye_cascade objects
-    face_cascade=cv2.CascadeClassifier("../Align_face_xml/haarcascade_frontalface_default.xml")
-    eye_cascade=cv2.CascadeClassifier("../Align_face_xml/haarcascade_eye.xml")
+    face_cascade=cv2.CascadeClassifier(xml_path+"haarcascade_frontalface_default.xml")
+    eye_cascade=cv2.CascadeClassifier(xml_path+"haarcascade_eye.xml")
 
     # Converting the image into grayscale
     gray=cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -128,3 +133,6 @@ def align_one_face(img_path:str, folder_to_save:str):
 
     #saves the final image
     cv2.imwrite(folder_to_save+img_name+'_aligned.'+img_ext, img_rotated)
+
+if __name__ == '__main__':
+    align_one_face('Align_face_xml/emily.jpg', 'Align_face_xml/')

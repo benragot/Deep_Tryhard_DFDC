@@ -10,6 +10,7 @@ PATH_TO_LOCAL_MODEL = 'model.joblib'
 ### GCP configuration - - - - - - - - - - - - - - - - - - -
 
 # /!\ you should fill these according to your account
+SERVICE_KEY = '/home/benjamin/code/benragot/gcp/deep-tryhard-dfdc-dd1c7261c311.json'
 
 ### GCP Project - - - - - - - - - - - - - - - - - - - - - -
 
