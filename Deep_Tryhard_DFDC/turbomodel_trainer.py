@@ -4,6 +4,7 @@ found here :
 https://www.sciencedirect.com/science/article/pii/S2667096821000471
 The aim is to classify faces as deep fake or real.
 '''
+
 import joblib
 from tqdm import tqdm
 from tensorflow.data import AUTOTUNE
@@ -22,10 +23,12 @@ class TurboModel():
                  folder_to_store_results,
                  model_name = 'Simple_Model_CNN_16_32_64'):
         """
-            path_to_train_val_dataset is the path to the train val dataset where there should be two folders:
-            FAKE and REAL.
+            path_to_train_dataset is the path to the train dataset where there should be two folders:
+            fake and real.
+            path_to_val_dataset is the path to the val dataset where there should be two folders:
+            fake and real.
             path_to_test_set is the path to the test dataset where there should be two folders:
-            FAKE and REAL.
+            fake and real.
             folder_to_store_results is the name of the folder where you want the results to be
             stored. No need to create it, it will be created by the module.
             Don't forget the '/' at the end !
@@ -86,6 +89,7 @@ class TurboModel():
                             optimizer='adam',
                             metrics=['accuracy',Recall(),Precision(),AUC()])
         return self
+
     def create_train_set(self, batch_size = 16,
                               validation_split=0.2):
         '''
@@ -96,14 +100,16 @@ class TurboModel():
         self.model_hyperparams['batch_size'] = batch_size
         self.model_hyperparams['validation_split'] = validation_split
         self.train_ds = image_dataset_from_directory(
-                                self.path_to_train_val_dataset,
+                                self.path_to_train_dataset,
                                 validation_split=validation_split,
                                 subset="training",
                                 seed=123,
                                 image_size=(224, 224),
                                 batch_size=batch_size)
+        self.class_names_train_ds = self.train_ds.class_names
         self.train_ds = self.train_ds.prefetch(buffer_size=AUTOTUNE)
         return self
+
     def create_val_set(self, batch_size = 8,
                               validation_split=0.05):
         '''
@@ -118,6 +124,7 @@ class TurboModel():
                                 seed=123,
                                 image_size=(224, 224),
                                 batch_size=batch_size)
+        self.class_names_val_ds = self.val_ds.class_names
         self.val_ds = self.val_ds.prefetch(buffer_size=AUTOTUNE)
         return self
     def create_test_set(self, batch_size = 8,
@@ -134,6 +141,7 @@ class TurboModel():
                                 seed=123,
                                 image_size=(224, 224),
                                 batch_size=batch_size)
+        self.class_names_test_ds = self.test_ds.class_names
         self.test_ds = self.test_ds.prefetch(buffer_size=AUTOTUNE)
         return self
     def train_model(self, epochs = 20,
