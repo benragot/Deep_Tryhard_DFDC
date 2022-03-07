@@ -1,3 +1,4 @@
+
 matplotlib
 numpy
 opencv_python_headless
@@ -19,6 +20,8 @@ gcsfs
 google-cloud-storage
 mlflow
 s3fs
+fastapi
+uvicorn
 
 # utilities
 six>=1.14
