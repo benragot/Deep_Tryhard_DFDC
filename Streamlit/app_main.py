@@ -45,22 +45,30 @@ while capture_image.isOpened() and count<271:
         capture_image.release()
         break
 capture_image.release()
-cv2.destroyAllWindows()
 
 #displaying faces
 #for face in face_list:
 
 st.title('Selecting 10 frames from the video and identifying faces')
 
+#resizing faces, changing shape to (224,224,3)
+face_list = [cv2.resize(face, (224,224)) for face in face_list]
+
+#adding 1 dimension, changing shape of faces to (None, 224,224,3)
+face_list = [np.expand_dims(face, 0) for face in face_list]
+
+#loading the benjamin model to predict if a face is a deepfake
+deepfake_detection_model = get_model('model_simple_32_neurons_dense.joblib')
+
+#calculating the proba that each face is a deepfake and changing the format
+predict_proba_per_face = [deepfake_detection_model.predict(face)[0,0] for face in face_list]
+predict_proba_per_face = [str(int(round(proba*100)))+'%' for proba in predict_proba_per_face]
+
 fig, ax = plt.subplots(2, 5, figsize=(12,4))
 plt.axis('off')
 for i in range(2):
     for j in range(5):
-        ax[i,j].imshow(face_list[i*5+j])
+        ax[i,j].imshow(np.reshape(face_list[i*5+j],(224,224,3)))
+        ax[i,j].set_title(predict_proba_per_face[i*5+j])
         ax[i,j].axis('off')
 st.pyplot(fig)
-
-# deepfake_detection_model = get_model('model_simple_32_neurons_dense.joblib')
-# face_for_pred = np.expand_dims(face_list[0], axis = 0)
-
-# st.write(deepfake_detection_model.predict(face_list[0]))
