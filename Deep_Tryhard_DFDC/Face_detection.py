@@ -15,6 +15,7 @@ from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2
 import tensorflow as tf
 from Deep_Tryhard_DFDC.params import *
 from Deep_Tryhard_DFDC.utils import *
+
 tf.compat.v1.disable_eager_execution()
 
 
@@ -159,10 +160,10 @@ def from_video_to_faces(video_path, writing_path, framerate):
 
     return : cropped pictured saved to the specified path
     '''
-
+    # detector = FaceDetector() à ajouter dans le package
     count = 0
     capture_image = cv2.VideoCapture(video_path)
-    while capture_image.isOpened() and count<271:
+    while capture_image.isOpened() and count<271: # A changer, mettre 300 - frammerate
         ret, frame = capture_image.read()
         if ret:
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
