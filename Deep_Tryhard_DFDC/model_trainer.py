@@ -22,6 +22,7 @@ class TurboModel():
                  folder_to_store_results,
                  model_name = 'Simple_Model_CNN_16_32_64'):
         """
+            my_test with laure
             path_to_train_val_dataset is the path to the train val dataset where there should be two folders:
             FAKE and REAL.
             path_to_test_set is the path to the test dataset where there should be two folders:
