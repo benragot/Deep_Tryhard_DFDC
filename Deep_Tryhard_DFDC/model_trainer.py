@@ -34,14 +34,14 @@ class TurboModel():
         """
         self.model_name = model_name
         self.path_to_train_dataset = path_to_train_dataset
-        self.path_to_val_dataset = path_to_val_datase
+        self.path_to_val_dataset = path_to_val_dataset
         self.path_to_test_set = path_to_test_set
         self.folder_to_store_results = folder_to_store_results
         self.model_hyperparams = {}
         self.model = None
 
     def initialize_model(self,
-                         kernel_size_Conv2d = (3,3),
+                        kernel_size_Conv2d = (3,3),
                         max_pool_size = (2,2),
                         numbers_of_filters = [16,32,64],
                         dense_layers = [32],
@@ -83,8 +83,8 @@ class TurboModel():
         '''
         ### Model compilation
         self.model.compile(loss='binary_crossentropy',
-                    optimizer='adam',
-                    metrics=['accuracy',Recall(),Precision(),AUC()])
+                            optimizer='adam',
+                            metrics=['accuracy',Recall(),Precision(),AUC()])
         return self
     def create_train_set(self, batch_size = 16,
                               validation_split=0.2):
