@@ -97,7 +97,7 @@ class TurboModel():
         self.model_hyperparams['batch_size'] = batch_size
         self.model_hyperparams['validation_split'] = validation_split
         self.train_ds = image_dataset_from_directory(
-                                self.path_to_val_dataset,
+                                self.path_to_train_dataset,
                                 validation_split=validation_split,
                                 subset="training",
                                 seed=123,
