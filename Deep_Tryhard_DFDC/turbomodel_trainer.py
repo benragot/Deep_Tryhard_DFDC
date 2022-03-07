@@ -4,6 +4,7 @@ found here :
 https://www.sciencedirect.com/science/article/pii/S2667096821000471
 The aim is to classify faces as deep fake or real.
 '''
+
 import joblib
 from tqdm import tqdm
 from tensorflow.data import AUTOTUNE
@@ -87,6 +88,7 @@ class TurboModel():
                             optimizer='adam',
                             metrics=['accuracy',Recall(),Precision(),AUC()])
         return self
+
     def create_train_set(self, batch_size = 16,
                               validation_split=0.2):
         '''
@@ -105,6 +107,7 @@ class TurboModel():
                                 batch_size=batch_size)
         self.train_ds = self.train_ds.prefetch(buffer_size=AUTOTUNE)
         return self
+
     def create_val_set(self, batch_size = 8,
                               validation_split=0.05):
         '''
