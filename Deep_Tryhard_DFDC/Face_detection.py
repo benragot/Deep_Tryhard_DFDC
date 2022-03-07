@@ -15,7 +15,7 @@ from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2
 import tensorflow as tf
 from Deep_Tryhard_DFDC.params import *
 from Deep_Tryhard_DFDC.utils import *
-
+from Deep_Tryhard_DFDC.entity_selection import *
 tf.compat.v1.disable_eager_execution()
 
 

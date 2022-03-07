@@ -1,7 +1,6 @@
 '''this module takes a picture with a face as input and returns an 'aligned face'
 It is based on eyes only.
 '''
-
 import cv2
 from cv2 import detail_AffineBasedEstimator
 import numpy as np
@@ -135,4 +134,6 @@ def align_one_face(img_path:str, folder_to_save:str, xml_path='Align_face_xml/')
     cv2.imwrite(folder_to_save+img_name+'_aligned.'+img_ext, img_rotated)
 
 if __name__ == '__main__':
+    test_picture = ''
+    test_output_folder = ''
     align_one_face('Align_face_xml/emily.jpg', 'Align_face_xml/')
