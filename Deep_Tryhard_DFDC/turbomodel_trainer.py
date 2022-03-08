@@ -65,9 +65,12 @@ class TurboModel():
         self.model_hyperparams['dropout'] = dropout
 
         self.model = models.Sequential()
+        #simple rescaling before processing.
+        self.model.add(layers.Rescaling(1./255, input_shape=(224, 224, 3)))
+
         ### First convolution & max-pooling
         for numbers_of_filter in numbers_of_filters:
-            self.model.add(layers.Conv2D(numbers_of_filter, kernel_size_Conv2d,input_shape=(224, 224, 3), activation="relu"))
+            self.model.add(layers.Conv2D(numbers_of_filter, kernel_size_Conv2d, activation="relu"))
             self.model.add(layers.BatchNormalization())
             self.model.add(layers.MaxPool2D(pool_size=max_pool_size))
         ### Flattening
