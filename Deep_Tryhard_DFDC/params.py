@@ -43,8 +43,6 @@ MODEL_VERSION = 'v2'
 
 # not required here
 
-### - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 ### FACE DETECTION PARAMS (TO UPDATE)
 
 import os
