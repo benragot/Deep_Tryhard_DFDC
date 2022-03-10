@@ -5,7 +5,7 @@ You have to check params.py to change the direct path of you SERVICE_KEY
 import os
 from google.cloud import storage
 from termcolor import colored
-from Deep_Tryhard_DFDC.params import BUCKET_NAME, MODEL_NAME, MODEL_VERSION, SERVICE_KEY
+from Deep_Tryhard_DFDC.parammmms import BUCKET_NAME, MODEL_NAME, MODEL_VERSION, SERVICE_KEY
 
 def storage_upload_file(name,path,storage_location,rm=False):
     '''
