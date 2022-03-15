@@ -13,7 +13,6 @@ def move_test_files(data_file,path = '', fake = 'fake',real = 'real', x_fakes = 
     real : the name of the real subfolder
     x_fakes / x_reals : ratio of fakes and ratio of reals in case we want more fakes
 
-    8==============D
 
     '''
     fullpath = os.path.join(path,data_file)
