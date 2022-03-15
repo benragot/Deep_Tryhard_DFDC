@@ -14,6 +14,8 @@ from tensorflow.keras.utils import image_dataset_from_directory
 from tensorflow.keras.callbacks import EarlyStopping
 import matplotlib.pyplot as plt
 import os
+import pickle
+from contextlib import redirect_stdout
 
 class TurboModel():
     def __init__(self,
@@ -63,9 +65,12 @@ class TurboModel():
         self.model_hyperparams['dropout'] = dropout
 
         self.model = models.Sequential()
+        #simple rescaling before processing.
+        self.model.add(layers.Rescaling(1./255, input_shape=(224, 224, 3)))
+
         ### First convolution & max-pooling
         for numbers_of_filter in numbers_of_filters:
-            self.model.add(layers.Conv2D(numbers_of_filter, kernel_size_Conv2d,input_shape=(224, 224, 3), activation="relu"))
+            self.model.add(layers.Conv2D(numbers_of_filter, kernel_size_Conv2d, activation="relu"))
             self.model.add(layers.BatchNormalization())
             self.model.add(layers.MaxPool2D(pool_size=max_pool_size))
         ### Flattening
@@ -162,32 +167,37 @@ class TurboModel():
         return self
     def save_curves(self):
         '''
-        Saves results (curves + model.evaluate in the folder specified in the init.)
+        Saves results (curves and model.evaluate in the folder specified in the init.)
         '''
+        metrics_per_pair = {'loss':[],
+                         'accuracy':[],
+                         'recall':[],
+                         'precision':[],
+                         'auc':[]
+        }
         #special treatment for the history dict because the keys can vary.
         for key, value in self.history.history.items():
-            if 'val' in key:
-                #it's validation set value.
-                plt.close()
-                plt.plot(value)
-                plt.title(f'Validation set : {key}')
-                plt.ylabel(key)
-                plt.xlabel('Epoch')
-                plt.savefig(self.folder_to_store_results + f'val_set_{key}.pdf')
-            else:
-                #it's train set value.
-                plt.close()
-                plt.plot(value)
-                plt.title(f'Train set : {key}')
-                plt.ylabel(key)
-                plt.xlabel('Epoch')
-                plt.savefig(self.folder_to_store_results + f'train_set_{key}.pdf')
-
-    def save_evaluate(self):
-        '''
-        Saves results (curves + model.evaluate in the folder specified in the init.)
-        '''
+            for key_per_pair in metrics_per_pair.keys():
+                #if the key is matching the key_per_pair
+                if key_per_pair in key:
+                    #it will first append the train values in index 0.
+                    #it will then append the val values in index 1.
+                    metrics_per_pair[key_per_pair].append(value)
+        # i is useful for index in the .evaluate.
         scores = self.model.evaluate(self.test_ds)
+        i = 0
+        #creating all the graphs and saving them as pdf.
+        for key, value in metrics_per_pair.items():
+            plt.close()
+            plt.plot([i + 1 for i in range(len(value[0]))],value[0], '-b', label='Train')
+            plt.plot([i + 1 for i in range(len(value[0]))],value[1], '-r', label='Val')
+            plt.title(f'Graph of {key}. Value on the test set : {round(scores[i],3)}')
+            plt.ylabel(key)
+            plt.xlabel('Epoch')
+            plt.legend()
+            plt.savefig(self.folder_to_store_results + f'{key}.pdf')
+            i += 1
+        #actually saving the .evaluate.
         text_file = open(self.folder_to_store_results + "model_evaluate.txt", "w")
         n = text_file.write(f'''Test loss : {scores[0]}\
                             \nTest accuracy : {scores[1]}\
@@ -208,14 +218,29 @@ class TurboModel():
         Saves the model in the folder specified in the init.
         '''
         joblib.dump(self.model, self.folder_to_store_results + self.model_name + '.joblib')
+    def save_history_in_pickle(self):
+        '''
+        Saves the history in a .pickle file in the folder specified in the init.
+        '''
+        with open(self.folder_to_store_results + 'history.pickle', 'wb') as handle:
+            pickle.dump(self.history, handle, protocol=pickle.HIGHEST_PROTOCOL)
     def save_summary(self):
         '''
-        Saves the model in the folder specified in the init.
+        Saves the summary of the model in a .txt file in the folder specified in the init.
         '''
-        def myprint(s):
-            with open(self.folder_to_store_results + 'model_summary.txt','w+') as f:
-                print(s, file=f)
-        self.model.summary(print_fn=myprint)
+        with open(self.folder_to_store_results + 'model_summary.txt', 'w') as f:
+            with redirect_stdout(f):
+                self.model.summary()
+    def save_classes_in_pickle(self):
+        '''
+        Saves the classes of the train, val and test sets in a .pickle file in the folder specified in the init.
+        '''
+        with open(self.folder_to_store_results + 'train_ds_classes.pickle', 'wb') as handle:
+            pickle.dump(self.class_names_train_ds, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        with open(self.folder_to_store_results + 'val_ds_classes.pickle', 'wb') as handle:
+            pickle.dump(self.class_names_val_ds, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        with open(self.folder_to_store_results + 'test_ds_classes.pickle', 'wb') as handle:
+            pickle.dump(self.class_names_test_ds, handle, protocol=pickle.HIGHEST_PROTOCOL)
     def save_results(self):
         '''
         Creates the folder specified in the init.
@@ -224,7 +249,16 @@ class TurboModel():
         '''
         os.mkdir(self.folder_to_store_results)
         self.save_model()
-        self.save_evaluate()
         self.save_curves()
         self.save_hyperparams()
+        self.save_history_in_pickle()
         self.save_summary()
+        self.save_classes_in_pickle()
+
+# ls Data_test/fake_test | wc 3 830
+# ls Data_test/real_test | wc 3 830
+# ls Data_train/fake/ | wc 10 727
+# ls Data_train/real/ | wc 10 727
+# ls Data_val/fake_val | wc 4 597
+# ls Data_test/real_val | wc 4 597
+#somme = 38 308

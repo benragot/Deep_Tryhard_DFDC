@@ -43,11 +43,14 @@ MODEL_VERSION = 'v2'
 
 # not required here
 
-### - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 ### FACE DETECTION PARAMS (TO UPDATE)
 
-MODEL_MOBILENETV2 = 'model_Yolov2/facedetection-mobilenetv2-size224-alpha0.75.h5'
+import os
+
+MODEL_MOBILENETV2 = os.path.join(
+    os.path.dirname(__file__),
+    'model_Yolov2',
+    'facedetection-mobilenetv2-size224-alpha0.75.h5')
 
 TRAIN_FOLDER_FAKE = 'Data/fake'
 
