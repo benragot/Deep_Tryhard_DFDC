@@ -1,3 +1,7 @@
+'''
+This module is meant to be used to process images quickly.
+'''
+
 import os
 import random
 import cv2

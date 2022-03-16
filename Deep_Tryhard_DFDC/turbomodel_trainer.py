@@ -3,6 +3,8 @@ This module is meant to train several models of 'simple' CNN based on an archite
 found here :
 https://www.sciencedirect.com/science/article/pii/S2667096821000471
 The aim is to classify faces as deep fake or real.
+Moreover, this module allows gridsearches : it can save a lot of information after
+training a model.
 '''
 
 import joblib
@@ -254,11 +256,3 @@ class TurboModel():
         self.save_history_in_pickle()
         self.save_summary()
         self.save_classes_in_pickle()
-
-# ls Data_test/fake_test | wc 3 830
-# ls Data_test/real_test | wc 3 830
-# ls Data_train/fake/ | wc 10 727
-# ls Data_train/real/ | wc 10 727
-# ls Data_val/fake_val | wc 4 597
-# ls Data_test/real_val | wc 4 597
-#somme = 38 308

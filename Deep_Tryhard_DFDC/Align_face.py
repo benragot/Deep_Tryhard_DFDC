@@ -1,5 +1,8 @@
-'''this module takes a picture with a face as input and returns an 'aligned face'
+'''
+this module takes a picture with a face as input and returns an 'aligned face'
 It is based on eyes only.
+However, due to poor quality of the faces and the fact that DeepFake are of poor quality, we decided to do not
+use it in our pipeline of video processing.
 '''
 import cv2
 from cv2 import detail_AffineBasedEstimator

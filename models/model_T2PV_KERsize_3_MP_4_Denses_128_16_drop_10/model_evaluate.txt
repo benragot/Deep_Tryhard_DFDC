@@ -1,0 +1,5 @@
+Test loss : 0.5093320608139038                            
+Test accuracy : 0.7527202367782593                            
+Test recall : 0.7891613245010376                            
+Test precision : 0.7196980714797974                            
+Test AUC : 0.8361702561378479
