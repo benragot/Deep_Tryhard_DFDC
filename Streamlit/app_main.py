@@ -1,4 +1,5 @@
 from turtle import down
+from pyparsing import PositionToken
 import streamlit as st
 import numpy as np
 import pandas as pd
@@ -80,6 +81,9 @@ def subplotting_10_faces_with_proba(uploaded_file):
     display_time = True
     if display_time:
         st.text(f"Total time of inference : {(end_time - start_time)}")
+
+
+
 def gifing_faces_with_proba(uploaded_file):
     start_time = datetime.datetime.now()
     tfile = tempfile.NamedTemporaryFile(delete=False)
@@ -244,6 +248,7 @@ def gif_with_face_detection(video):
     #calculating the proba that each face is a deepfake and changing the format
     predict_proba_per_face = [deepfake_detection_model.predict(face)[0,0] for face in face_list]
     predict_proba_per_face = [str(int(round(proba*100)))+'%' for proba in predict_proba_per_face]
+    predict_proba_per_face_= [int(round(deepfake_detection_model.predict(face)[0,0]*100)) for face in face_list]
 
     for i in range(len(frame_list)):
         plt.close()
@@ -271,21 +276,64 @@ def gif_with_face_detection(video):
         MY_ARRAY = imageio.imread(f'Streamlit/{i}.jpg')
         for __ in range(nb_images_per_face): #repeating to add nb_images_per_face images
             images.append(MY_ARRAY)
+
     #saving the gif.
     imageio.mimsave('Streamlit/dumb.gif', images)
-    st.title('GIF from faces ! ')
-    st.image('Streamlit/dumb.gif')
+
+    for i in range(len(frame_list)):
+        plt.close()
+        plt.figure(figsize=(0.5,2))
+        if predict_proba_per_face_[i]<50:
+            plt.bar(0,predict_proba_per_face_[i], color='green')
+            plt.yticks()
+            plt.xticks([])
+            plt.savefig(f'Streamlit/bar{i}.jpg')
+        else:
+            plt.bar(0,predict_proba_per_face_[i], color='red')
+            plt.yticks()
+            plt.xticks([])
+            plt.savefig(f'Streamlit/bar{i}.jpg')
+
+    barchart = []
+    #nb_images_per_face is how many time we are going to repeat each frame in the gif.
+    nb_images_per_face = 1
+    for i in range(len(frame_list)):
+        MY_ARRAY_ = imageio.imread(f'Streamlit/bar{i}.jpg')
+        for __ in range(nb_images_per_face): #repeating to add nb_images_per_face images
+            barchart.append(MY_ARRAY_)
+
+    #saving the gif.
+    imageio.mimsave('Streamlit/dumb_bis.gif', barchart)
+
+    col1, col2 = st.columns([3, 1])
+
+    with col1:
+        st.header("GIF from faces ! ")
+        st.image('Streamlit/dumb.gif')
+
+    with col2:
+        st.header("FAKE or NOT ! ")
+        st.image('Streamlit/dumb_bis.gif')
+
+
     end_time = datetime.datetime.now()
     display_time = True
     if display_time:
         st.text(f"Total time of inference : {(end_time - start_time).seconds} seconds.")
 
 #actual code of the page :
+st.set_page_config(
+        page_title="DeepFake Detection Challenge", # => Quick reference - Streamlit
+        page_icon="🕵️",
+        layout="centered", # wide
+        initial_sidebar_state="auto")
 
-st.title("DeepFake Detection Challenge")
+st.title('DeepFake Detection Challenge 🕵️')
 
 #Uploading the file :
 uploaded_file = st.file_uploader("Gimme some video",type=["mp4","mov","mkv","wmv"])
+
+
 #if there is a file then we do something.
 if uploaded_file:
     #todo play la video
@@ -306,5 +354,6 @@ if uploaded_file:
     if st.button('Click me to get a bounedinegue bauxe ! !'):
         # print is visible in the server output, not in the page
         gif_with_face_detection(video)
+        load_ = True
     else:
         pass
