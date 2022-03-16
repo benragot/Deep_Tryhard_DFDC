@@ -57,5 +57,8 @@ pypi:
 test_GCP_management:
 	python -m Deep_Tryhard_DFDC.GCP_management
 
+test_video_classifier:
+	python -m Deep_Tryhard_DFDC.video_classifier
+
 run_streamlit:
 	@streamlit run Streamlit/app_main.py

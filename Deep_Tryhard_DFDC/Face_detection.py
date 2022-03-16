@@ -13,8 +13,8 @@ from tensorflow.keras.layers import Conv2D, Input, ZeroPadding2D, Dense, Lambda
 from tensorflow.keras.models import Model
 from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2
 import tensorflow as tf
-from Deep_Tryhard_DFDC.parammmms import MODEL_MOBILENETV2
-from Deep_Tryhard_DFDC.params import *
+from Deep_Tryhard_DFDC.paramms import MODEL_MOBILENETV2
+from Deep_Tryhard_DFDC.paramms import *
 from Deep_Tryhard_DFDC.utils import *
 from Deep_Tryhard_DFDC.entity_selection import *
 tf.compat.v1.disable_eager_execution()

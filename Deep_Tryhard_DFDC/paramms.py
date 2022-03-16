@@ -22,22 +22,6 @@ BUCKET_NAME = 'bachata-kfc-bucket'
 # or if you want to use the full dataset (you need need to upload it first of course)
 BUCKET_TRAIN_DATA_PATH = 'raw_data/metadata.csv'
 
-##### Training  - - - - - - - - - - - - - - - - - - - - - -
-
-# not required here
-
-##### Model - - - - - - - - - - - - - - - - - - - - - - - -
-
-# model folder name (will contain the folders for all trained model versions)
-MODEL_NAME = 'taxifare'
-
-# model version folder name (where the trained model.joblib file will be stored)
-MODEL_VERSION = 'v2'
-
-### GCP AI Platform - - - - - - - - - - - - - - - - - - - -
-
-# not required here
-
 ### FACE DETECTION PARAMS (TO UPDATE)
 
 import os
