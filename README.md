@@ -3,7 +3,7 @@
 - The link here :arrow_right: [Kaggle DFDC](https://www.kaggle.com/c/deepfake-detection-challenge)
 
 # Our approach
-- You can find our approach on this google slides :arrow_right: [Our slides](https://docs.google.com/presentation/d/1HIfiFZGQcne0gnbyxlqfHt6dCbZ-ZzzyAyGkfhgy81c/edit?usp=sharing)
+- You can find our approach on this youtube video (7 min presentation) :arrow_right: [our presentation](https://youtu.be/vwwDGtuFbSQ?t=748). The slides used : [Our slides](https://docs.google.com/presentation/d/1HIfiFZGQcne0gnbyxlqfHt6dCbZ-ZzzyAyGkfhgy81c/edit?usp=sharing).
 - Basically, we built a face classifier based on a Convolutionnal Neural Network. It can predict wether a face is DeepFake or Real.
 - Therefore, we use this classifier on 10 faces extracted form a video to predict whether the whole video is DeepFake or Real.
 ## The data
